@@ -1,1 +1,44 @@
+
+# ----------------
+# Python
+# ----------------
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Virtual environment
+venv/
+.env
+*.env
+
+# IDE / Editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Byte-compiled / cache
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Testing
+.coverage
+.pytest_cache/
+
+# pjproject (don’t track this repo inside project)
 pjproject/
+
+# Transcripts and recordings (if generated dynamically)
+recordings/
+transcripts/
