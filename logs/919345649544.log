@@ -1,0 +1,76 @@
+Cannot connect to server socket err = No such file or directory
+Cannot connect to server request channel
+jack server is not running or cannot be started
+JackShmReadWritePtr::~JackShmReadWritePtr - Init not done for -1, skipping unlock
+JackShmReadWritePtr::~JackShmReadWritePtr - Init not done for -1, skipping unlock
+Cannot connect to server socket err = No such file or directory
+Cannot connect to server request channel
+jack server is not running or cannot be started
+JackShmReadWritePtr::~JackShmReadWritePtr - Init not done for -1, skipping unlock
+JackShmReadWritePtr::~JackShmReadWritePtr - Init not done for -1, skipping unlock
+13:51:38.925         sip_endpoint.c !.Module "mod-pjsua-log" registered
+13:51:38.925         sip_endpoint.c  .Module "mod-tsx-layer" registered
+13:51:38.925         sip_endpoint.c  .Module "mod-stateful-util" registered
+13:51:38.925         sip_endpoint.c  .Module "mod-ua" registered
+13:51:38.925         sip_endpoint.c  .Module "mod-100rel" registered
+13:51:38.925         sip_endpoint.c  .Module "mod-pjsua" registered
+13:51:38.925         sip_endpoint.c  .Module "mod-invite" registered
+13:51:38.982             alsa_dev.c  ..ALSA driver found 10 devices
+13:51:38.982             alsa_dev.c  ..ALSA initialized
+13:51:38.982                  pjlib  ..select() I/O Queue created (0x5bd560749758)
+13:51:38.992         sip_endpoint.c  .Module "mod-evsub" registered
+13:51:38.992         sip_endpoint.c  .Module "mod-presence" registered
+13:51:38.992         sip_endpoint.c  .Module "mod-dlg_even" registered
+13:51:38.992         sip_endpoint.c  .Module "mod-mwi" registered
+13:51:38.992         sip_endpoint.c  .Module "mod-refer" registered
+13:51:38.992         sip_endpoint.c  .Module "mod-pjsua-pres" registered
+13:51:38.992         sip_endpoint.c  .Module "mod-pjsua-im" registered
+13:51:38.992         sip_endpoint.c  .Module "mod-pjsua-options" registered
+13:51:38.992           pjsua_core.c  .1 SIP worker threads created
+13:51:38.992           pjsua_core.c  .pjsua version 2.15-dev for Linux-6.6.87.2/x86_64/glibc-2.39 initialized
+13:51:38.992           pjsua_core.c  .PJSUA state changed: CREATED --> INIT
+13:51:38.992         sip_endpoint.c  Module "mod-default-handler" registered
+13:51:38.992           conference.c  .Add port 1 (ringback) queued
+13:51:38.992           conference.c  .Add port 2 (ring) queued
+13:51:38.992           pjsua_core.c  bind() error: Address already in use [status=120098]
+13:51:38.992           conference.c  .Stop any transmission to port 1 (ringback)
+13:51:38.992           conference.c  .Stop any transmission from port 1 (ringback)
+13:51:38.992           conference.c  .Removed port 1 (ringback), port count=1
+13:51:38.992           conference.c  .Stop any transmission to port 2 (ring)
+13:51:38.992           conference.c  .Stop any transmission from port 2 (ring)
+13:51:38.992           conference.c  .Removed port 2 (ring), port count=1
+13:51:38.992           pjsua_core.c  Shutting down, flags=0...
+13:51:38.992           pjsua_core.c  PJSUA state changed: INIT --> CLOSING
+13:51:39.002           pjsua_call.c  .Hangup all calls..
+13:51:39.002           pjsua_pres.c  .Shutting down presence..
+13:51:40.007           pjsua_core.c  .Destroying...
+13:51:40.008          pjsua_media.c  .Shutting down media..
+13:51:40.018           conference.c  ...Stop any transmission to port 0 (Master/sound)
+13:51:40.018           conference.c  ...Stop any transmission from port 0 (Master/sound)
+13:51:40.018           conference.c  ...Removed port 0 (Master/sound), port count=0
+13:51:40.018           conference.c  ..Audio conference bridge destroyed
+13:51:40.018      sip_transaction.c  .Stopping transaction layer module
+13:51:40.018      sip_transaction.c  .Stopped transaction layer module
+13:51:40.018         sip_endpoint.c  .Module "mod-default-handler" unregistered
+13:51:40.018         sip_endpoint.c  .Module "mod-pjsua-options" unregistered
+13:51:40.018         sip_endpoint.c  .Module "mod-pjsua-im" unregistered
+13:51:40.018         sip_endpoint.c  .Module "mod-pjsua-pres" unregistered
+13:51:40.018         sip_endpoint.c  .Module "mod-pjsua" unregistered
+13:51:40.018         sip_endpoint.c  .Module "mod-stateful-util" unregistered
+13:51:40.018         sip_endpoint.c  .Module "mod-refer" unregistered
+13:51:40.018         sip_endpoint.c  .Module "mod-mwi" unregistered
+13:51:40.018         sip_endpoint.c  .Module "mod-dlg_even" unregistered
+13:51:40.018         sip_endpoint.c  .Module "mod-presence" unregistered
+13:51:40.018         sip_endpoint.c  .Module "mod-evsub" unregistered
+13:51:40.018         sip_endpoint.c  .Module "mod-invite" unregistered
+13:51:40.018         sip_endpoint.c  .Module "mod-100rel" unregistered
+13:51:40.018         sip_endpoint.c  .Module "mod-ua" unregistered
+13:51:40.018      sip_transaction.c  .Transaction layer module destroyed
+13:51:40.018         sip_endpoint.c  .Module "mod-tsx-layer" unregistered
+13:51:40.018         sip_endpoint.c  .Module "mod-msg-print" unregistered
+13:51:40.018         sip_endpoint.c  .Module "mod-pjsua-log" unregistered
+13:51:40.018                timer.c  .Dumping timer heap:
+13:51:40.018                timer.c  .  Cur size: 0 entries, max: 3070
+13:51:40.018         sip_endpoint.c  .Endpoint 0x5bd56071e720 destroyed
+13:51:40.018           pjsua_core.c  .PJSUA state changed: CLOSING --> NULL
+13:51:40.018           pjsua_core.c  .PJSUA destroyed...
