@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SIP Call UI</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    input {
+      padding: 10px;
+      margin: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      width: 200px;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 5px;
+    }
+    .call-btn {
+      background-color: #28a745;
+      color: white;
+    }
+    .hangup-btn {
+      background-color: #dc3545;
+      color: white;
+    }
+    #status {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>SIP Call Interface</h2>
+    <input type="text" id="phoneNumber" placeholder="Enter Number" />
+    <br>
+    <button class="call-btn" onclick="makeCall()">📞 Call</button>
+    <button class="hangup-btn" onclick="hangUp()">❌ Hangup</button>
+    <div id="status"></div>
+  </div>
+
+  <script>
+    const API_BASE = "http://127.0.0.1:2004"; // Change this to your backend URL
+
+    async function makeCall() {
+      const number = document.getElementById("phoneNumber").value;
+      if (!number) {
+        document.getElementById("status").innerText = "⚠️ Enter a number!";
+        return;
+      }
+      document.getElementById("status").innerText = "Dialing...";
+      
+      try {
+        const response = await fetch(`${API_BASE}/make_call`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ number: number })
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+          document.getElementById("status").innerText = "✅ " + data.message;
+        } else {
+          document.getElementById("status").innerText = "❌ Error: " + data.detail;
+        }
+      } catch (error) {
+        document.getElementById("status").innerText = "⚠️ Request failed: " + error;
+      }
+    }
+
+    function hangUp() {
+      document.getElementById("status").innerText = "Call ended ❌";
+      // (Optional) You can create a /hangup API in FastAPI and call it here
+    }
+  </script>
+</body>
+</html>

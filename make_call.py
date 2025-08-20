@@ -2,7 +2,8 @@
 import subprocess
 import os
 import threading
-import tim
+import time
+import signal
 from dotenv import load_dotenv
 
 # Load SIP credentials from .env
@@ -14,10 +15,9 @@ SIP_PORT = os.getenv("SIP_PORT", "5060")
 
 def make_call(destination_number):
     """
-    Starts a SIP call using pjsua with dummy audio (for WSL2 testing).
-    Uses random port assignment and manages process lifecycle.
+    Starts a SIP call using pjsua as a subprocess.
+    Returns the subprocess.Popen object.
     """
-    # Generate unique log file name
     timestamp = int(time.time())
     log_filename = f"call_{destination_number}_{timestamp}.log"
     
@@ -28,33 +28,94 @@ def make_call(destination_number):
         "--realm", "*",
         "--username", SIP_ID,
         "--password", SIP_PASS,
-        "--local-port", "0",  # Let OS choose free port
-        # "--null-audio",
-        "--log-level", "0",   # Reduce log verbosity
+        "--local-port", "0",
+        "--log-level", "0",
         "--auto-answer", "200",
         f"sip:{destination_number}@{SIP_DOMAIN}"
     ]
 
     try:
-        with open(log_filename, "w") as log_file:
-            process = subprocess.Popen(
-                cmd,
-                stdout=log_file,
-                stderr=subprocess.STDOUT,
-                text=True
-            )
-        print(f"Call process started. PID: {process.pid} Log: {log_filename}")
+        # Open a log file to capture stdout/stderr from the process
+        log_file = open(log_filename, "w")
         
-        # Return immediately without waiting
-        return process.pid
+        # Start the subprocess and return the process object
+        process = subprocess.Popen(
+            cmd,
+            stdout=log_file,
+            stderr=subprocess.STDOUT,
+            stdin=subprocess.PIPE,
+            text=True
+        )
+        print(f"Call process started. PID: {process.pid} Log: {log_filename}")
+        return process
         
     except Exception as e:
         print(f"Error starting call: {str(e)}")
+        # Close the log file if an error occurs
+        if 'log_file' in locals():
+            log_file.close()
         return None
 
-# Optional: Add a cleanup thread for zombie processes
+def hangup_call(process):
+    """
+    Attempts to gracefully hang up an active SIP call by sending 'h\n' to its stdin.
+    If that fails, it sends a SIGINT signal. Finally, it forcefully terminates the process.
+    """
+    if not process or process.poll() is not None:
+        print("No active process to hang up or process is already terminated.")
+        return False
+    
+    try:
+        # Step 1: Attempt to write 'h' to the stdin for a graceful hangup
+        process.stdin.write('h\n')
+        process.stdin.flush()
+        print("Attempted graceful hangup via stdin.")
+
+        # Give the process a moment to respond and exit gracefully
+        try:
+            process.wait(timeout=2)
+            if process.poll() is not None:
+                print("Process terminated gracefully after stdin command.")
+                return True
+        except subprocess.TimeoutExpired:
+            pass # Process is still running, proceed to next step
+        
+        # Step 2: Send a SIGINT signal as a fallback
+        process.send_signal(signal.SIGINT)
+        print("Attempted hangup via SIGINT signal.")
+
+        # Give the process a moment to respond and exit
+        try:
+            process.wait(timeout=2)
+            if process.poll() is not None:
+                print("Process terminated gracefully after SIGINT.")
+                return True
+        except subprocess.TimeoutExpired:
+            pass # Process is still running, proceed to final step
+        
+        # Step 3: Final fallback, kill the process
+        process.kill()
+        print("Final fallback: Forceful kill.")
+        process.wait(timeout=5)
+        
+        if process.poll() is not None:
+            print(f"Call process (PID {process.pid}) terminated.")
+            return True
+        else:
+            print("Failed to terminate process.")
+            return False
+
+    except Exception as e:
+        print(f"Error during hangup sequence: {e}")
+        # Final desperate attempt to kill the process
+        try:
+            process.kill()
+            return True
+        except:
+            return False
+
+# You can keep the zombie cleanup thread, but it's less critical with this approach
 def cleanup_zombies():
-    """Periodically reap completed child processes"""
     while True:
         try:
             os.waitpid(-1, os.WNOHANG)
@@ -62,6 +123,5 @@ def cleanup_zombies():
             pass
         time.sleep(60)
 
-# Start cleanup thread
 cleanup_thread = threading.Thread(target=cleanup_zombies, daemon=True)
 cleanup_thread.start()
